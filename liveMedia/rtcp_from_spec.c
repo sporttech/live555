@@ -66,6 +66,7 @@ A.7 Computing the RTCP Transmission Interval
 *****/
 
 
+   static
    double rtcp_interval(int members,
                         int senders,
                         double rtcp_bw,

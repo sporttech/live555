@@ -789,6 +789,8 @@ void createOutputFiles(char const* periodicFilenameSuffix) {
     }
 
     if (outputQuickTimeFile) {
+      /* XXX comment out to not bother with integrating with our custom QuickTimeFileSink for now
+       *
       qtOut = QuickTimeFileSink::createNew(*env, *session, outFileName,
 					   fileSinkBufferSize,
 					   movieWidth, movieHeight,
@@ -797,6 +799,9 @@ void createOutputFiles(char const* periodicFilenameSuffix) {
 					   syncStreams,
 					   generateHintTracks,
 					   generateMP4Format);
+	*/
+      qtOut = NULL;
+
       if (qtOut == NULL) {
 	*env << "Failed to create a \"QuickTimeFileSink\" for outputting to \""
 	     << outFileName << "\": " << env->getResultMsg() << "\n";

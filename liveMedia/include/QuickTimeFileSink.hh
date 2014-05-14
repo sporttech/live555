@@ -25,11 +25,16 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 #include "MediaSession.hh"
 #endif
 
+#include <string>
+#include <functional>
+
 class QuickTimeFileSink: public Medium {
 public:
   static QuickTimeFileSink* createNew(UsageEnvironment& env,
 				      MediaSession& inputSession,
-				      char const* outputFileName,
+				      std::function<std::string ()> fileNameGen,
+				      std::function<void (std::string const&, long, long)> fileCallback,
+				      int fileDuration,
 				      unsigned bufferSize = 20000,
 				      unsigned short movieWidth = 240,
 				      unsigned short movieHeight = 180,
@@ -47,13 +52,17 @@ public:
 
 private:
   QuickTimeFileSink(UsageEnvironment& env, MediaSession& inputSession,
-		    char const* outputFileName, unsigned bufferSize,
+		    std::function<std::string ()> fileNameGen,
+		    std::function<void (std::string const&, long, long)> fileCallback,
+		    int fileDuration, unsigned bufferSize,
 		    unsigned short movieWidth, unsigned short movieHeight,
 		    unsigned movieFPS, Boolean packetLossCompensate,
 		    Boolean syncStreams, Boolean generateHintTracks,
 		    Boolean generateMP4Format);
       // called only by createNew()
   virtual ~QuickTimeFileSink();
+
+  void rotateOutputFile();
 
   Boolean continuePlaying();
   static void afterGettingFrame(void* clientData, unsigned frameSize,
@@ -69,6 +78,13 @@ private:
   friend class SubsessionIOState;
   MediaSession& fInputSession;
   FILE* fOutFid;
+  std::function<std::string ()> fFileNameGen;
+  std::string fOutputFilename;
+  struct timeval fPresentationStart;
+  struct timeval fPresentationEnd;
+  std::function<void (std::string const&, long, long)> fFileCallback;
+  int fFileDuration;
+  time_t fCurFileStart;
   unsigned fBufferSize;
   Boolean fPacketLossCompensate;
   Boolean fSyncStreams, fGenerateMP4Format;

@@ -95,6 +95,7 @@ static char const* recordTypeStr[] = {
   "JUNK"
 };
 
+UsageEnvironment& operator<<(UsageEnvironment& env, IndexRecord& r);
 UsageEnvironment& operator<<(UsageEnvironment& env, IndexRecord& r) {
   return env << "[" << ((r.recordType()&0x80) != 0 ? "1" : "")
 	     << recordTypeStr[r.recordType()&0x7F] << ":"

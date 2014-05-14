@@ -60,6 +60,7 @@ private:
 
 ////////// ProxyServerMediaSession implementation //////////
 
+UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyServerMediaSession& psms);
 UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyServerMediaSession& psms) { // used for debugging
   return env << "ProxyServerMediaSession[\"" << psms.url() << "\"]";
 }
@@ -200,6 +201,7 @@ static void continueAfterGET_PARAMETER(RTSPClient* rtspClient, int resultCode, c
 
 ////////// "ProxyRTSPClient" implementation /////////
 
+UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyRTSPClient& proxyRTSPClient);
 UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyRTSPClient& proxyRTSPClient) { // used for debugging
   return env << "ProxyRTSPClient[\"" << proxyRTSPClient.url() << "\"]";
 }
@@ -410,6 +412,7 @@ ProxyServerMediaSubsession::ProxyServerMediaSubsession(MediaSubsession& mediaSub
     fClientMediaSubsession(mediaSubsession), fNext(NULL), fHaveSetupStream(False) {
 }
 
+UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyServerMediaSubsession& psmss);
 UsageEnvironment& operator<<(UsageEnvironment& env, const ProxyServerMediaSubsession& psmss) { // used for debugging
   return env << "ProxyServerMediaSubsession[\"" << psmss.codecName() << "\"]";
 }

@@ -8,6 +8,12 @@
 #include <inetLib.h>
 #endif
 
+
+unsigned our_inet_addr(char const*);
+void our_srandom(unsigned x);
+u_int32_t our_random32(void); // because "our_random()" returns a 31-bit number
+
+
 /* Some systems (e.g., SunOS) have header files that erroneously declare inet_addr() as taking no arguments.
  * This confuses C++.  To overcome this, we use our own routine, implemented in C.
  */
@@ -294,7 +300,7 @@ long our_random() {
 }
 #endif
 
-u_int32_t our_random32() {
+u_int32_t our_random32(void) {
   /* Return a 32-bit random number.
      Because "our_random()" returns a 31-bit random number, we call it a second
      time, to generate the high bit.

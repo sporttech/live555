@@ -529,41 +529,41 @@ void QuickTimeFileSink
 
     SubsessionIOState* ioState = (SubsessionIOState*)clientData;
 
-#if 0
-    static struct timeval _start = {0};
-    static long start = 0;
-    if (_start.tv_sec == 0) {
-        gettimeofday(&_start, NULL);
-        start = toNS(_start);
+    if (false) {
+        static struct timeval _start = {0};
+        static long start = 0;
+        if (_start.tv_sec == 0) {
+            gettimeofday(&_start, NULL);
+            start = toNS(_start);
+        }
+
+        struct timeval _cur = {0};
+        gettimeofday(&_cur, NULL);
+        long cur = toNS(_cur);
+
+        static long lastNS = start;
+
+        static double last_local_delta;
+        double frame_abs_time = nsToDouble(toNS(presentationTime)) - nsToDouble(start);
+        double local_delta = nsToDouble(toNS(presentationTime)) - nsToDouble(cur);
+        int local_delta_drift_ms = (local_delta - last_local_delta) * 1000;
+        double last_delta = nsToDouble(toNS(presentationTime)) - nsToDouble(lastNS);
+
+        if (isH264iFrame(ioState->fBuffer->dataStart()))
+            fprintf(stderr, "I-frame ");
+        else
+            fprintf(stderr, "P-frame ");
+        fprintf(stderr, "@ %8.6lf ", frame_abs_time);
+        fprintf(stderr, "local-delta %8.6lf ", local_delta);
+        if (local_delta_drift_ms)
+            fprintf(stderr, "local-delta-drift %d ", local_delta_drift_ms);
+        if ((last_delta < 0.035 || last_delta > 0.045) && last_delta != 0)
+            fprintf(stderr, "last-delta %8.6lf ", last_delta);
+        fprintf(stderr, "\n");
+
+        lastNS = toNS(presentationTime);
+        last_local_delta = local_delta;
     }
-
-    struct timeval _cur = {0};
-    gettimeofday(&_cur, NULL);
-    long cur = toNS(_cur);
-
-    static long lastNS = start;
-
-    static double last_local_delta;
-    double frame_abs_time = nsToDouble(toNS(presentationTime)) - nsToDouble(start);
-    double local_delta = nsToDouble(toNS(presentationTime)) - nsToDouble(cur);
-    int local_delta_drift_ms = (local_delta - last_local_delta) * 1000;
-    double last_delta = nsToDouble(toNS(presentationTime)) - nsToDouble(lastNS);
-
-    if (isH264iFrame(ioState->fBuffer->dataStart()))
-        fprintf(stderr, "I-frame ");
-    else
-        fprintf(stderr, "P-frame ");
-    fprintf(stderr, "@ %8.6lf ", frame_abs_time);
-//    fprintf(stderr, "local-delta %8.6lf ", local_delta);
-    if (local_delta_drift_ms)
-        fprintf(stderr, "local-delta-drift %d ", local_delta_drift_ms);
-    if ((last_delta < 0.035 || last_delta > 0.045) && last_delta != 0)
-        fprintf(stderr, "last-delta %8.6lf ", last_delta);
-    fprintf(stderr, "\n");
-
-    lastNS = toNS(presentationTime);
-    last_local_delta = local_delta;
-#endif
 
     if (isH264iFrame(ioState->fBuffer->dataStart()) &&
         toNS(ioState->fOurSink.fPresentationStart) == 0)

@@ -18,7 +18,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 // DV Video RTP Sources
 // C++ header
 
-#ifndef _DV_VIDEOO_RTP_SOURCE_HH
+#ifndef _DV_VIDEO_RTP_SOURCE_HH
 #define _DV_VIDEO_RTP_SOURCE_HH
 
 #ifndef _MULTI_FRAMED_RTP_SOURCE_HH

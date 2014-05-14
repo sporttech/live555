@@ -161,7 +161,7 @@ void MPEG1or2Demux::registerReadInterest(u_int8_t streamIdTag,
   // Make sure this stream is not already being read:
   if (out.isCurrentlyAwaitingData) {
     envir() << "MPEG1or2Demux::registerReadInterest(): attempt to read stream id "
-	    << (void*)streamIdTag << " more than once!\n";
+	    << (void*)(unsigned long)streamIdTag << " more than once!\n";
     envir().internalError();
   }
 
@@ -460,7 +460,7 @@ void MPEGProgramStreamParser::parsePackHeader() {
     skipBytes(pack_stuffing_length);
   } else { // unknown
     fUsingDemux->envir() << "StreamParser::parsePack() saw strange byte "
-			  << (void*)nextByte
+			  << (void*)(unsigned long)nextByte
 			  << " following pack_start_code\n";
   }
 

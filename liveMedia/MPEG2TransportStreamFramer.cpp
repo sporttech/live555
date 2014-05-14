@@ -227,7 +227,7 @@ Boolean MPEG2TransportStreamFramer::updateTSPacketDurationEstimate(unsigned char
     }
   }
 
-  unsigned pid = ((pkt[1]&0x1F)<<8) | pkt[2];
+  unsigned long pid = ((pkt[1]&0x1F)<<8) | pkt[2];
 
   // Check whether we already have a record of a PCR for this PID:
   PIDStatus* pidStatus = (PIDStatus*)(fPIDStatusTable->Lookup((char*)pid));

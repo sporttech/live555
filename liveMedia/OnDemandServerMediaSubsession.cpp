@@ -183,7 +183,7 @@ void OnDemandServerMediaSubsession
   } else { // TCP
     destinations = new Destinations(tcpSocketNum, rtpChannelId, rtcpChannelId);
   }
-  fDestinationsHashTable->Add((char const*)clientSessionId, destinations);
+  fDestinationsHashTable->Add((char const*)(unsigned long)clientSessionId, destinations);
 }
 
 void OnDemandServerMediaSubsession::startStream(unsigned clientSessionId,
@@ -196,7 +196,7 @@ void OnDemandServerMediaSubsession::startStream(unsigned clientSessionId,
 						void* serverRequestAlternativeByteHandlerClientData) {
   StreamState* streamState = (StreamState*)streamToken;
   Destinations* destinations
-    = (Destinations*)(fDestinationsHashTable->Lookup((char const*)clientSessionId));
+    = (Destinations*)(fDestinationsHashTable->Lookup((char const*)(unsigned long)clientSessionId));
   if (streamState != NULL) {
     streamState->startPlaying(destinations,
 			      rtcpRRHandler, rtcpRRHandlerClientData,
@@ -306,9 +306,9 @@ void OnDemandServerMediaSubsession::deleteStream(unsigned clientSessionId,
 
   // Look up (and remove) the destinations for this client session:
   Destinations* destinations
-    = (Destinations*)(fDestinationsHashTable->Lookup((char const*)clientSessionId));
+    = (Destinations*)(fDestinationsHashTable->Lookup((char const*)(unsigned long)clientSessionId));
   if (destinations != NULL) {
-    fDestinationsHashTable->Remove((char const*)clientSessionId);
+    fDestinationsHashTable->Remove((char const*)(unsigned long)clientSessionId);
 
     // Stop streaming to these destinations:
     if (streamState != NULL) streamState->endPlaying(destinations);

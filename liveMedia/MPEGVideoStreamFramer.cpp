@@ -105,7 +105,7 @@ void MPEGVideoStreamFramer
     --diffPT.tv_sec;
     diffPT.tv_usec += 1000000;
   }
-  fprintf(stderr, "MPEGVideoStreamFramer::computePresentationTime(%d) -> %lu.%06ld [%lu.%06ld]\n", numAdditionalPictures, fPresentationTime.tv_sec, fPresentationTime.tv_usec, diffPT.tv_sec, diffPT.tv_usec);
+  fprintf(stderr, "MPEGVideoStreamFramer::computePresentationTime(%d) -> %lu.%06d [%lu.%06d]\n", numAdditionalPictures, fPresentationTime.tv_sec, fPresentationTime.tv_usec, diffPT.tv_sec, diffPT.tv_usec);
 #endif
 }
 
@@ -165,7 +165,7 @@ void MPEGVideoStreamFramer::continueReadProcessing() {
       = (fFrameRate == 0.0 || ((int)fPictureCount) < 0) ? 0
       : (unsigned)((fPictureCount*1000000)/fFrameRate);
 #ifdef DEBUG
-    fprintf(stderr, "%d bytes @%u.%06d, fDurationInMicroseconds: %d ((%d*1000000)/%f)\n", acquiredFrameSize, fPresentationTime.tv_sec, fPresentationTime.tv_usec, fDurationInMicroseconds, fPictureCount, fFrameRate);
+    fprintf(stderr, "%d bytes @%ld.%06d, fDurationInMicroseconds: %d ((%d*1000000)/%f)\n", acquiredFrameSize, fPresentationTime.tv_sec, fPresentationTime.tv_usec, fDurationInMicroseconds, fPictureCount, fFrameRate);
 #endif
     fPictureCount = 0;
 

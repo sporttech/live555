@@ -97,10 +97,10 @@ void FileSink::addData(unsigned char const* data, unsigned dataSize,
 	presentationTime.tv_sec == fPrevPresentationTime.tv_sec) {
       // The presentation time is unchanged from the previous frame, so we add a 'counter'
       // suffix to the file name, to distinguish them:
-      sprintf(fPerFrameFileNameBuffer, "%s-%lu.%06lu-%u", fPerFrameFileNamePrefix,
+      sprintf(fPerFrameFileNameBuffer, "%s-%lu.%06d-%u", fPerFrameFileNamePrefix,
 	      presentationTime.tv_sec, presentationTime.tv_usec, ++fSamePresentationTimeCounter);
     } else {
-      sprintf(fPerFrameFileNameBuffer, "%s-%lu.%06lu", fPerFrameFileNamePrefix,
+      sprintf(fPerFrameFileNameBuffer, "%s-%lu.%06d", fPerFrameFileNamePrefix,
 	      presentationTime.tv_sec, presentationTime.tv_usec);
       fPrevPresentationTime = presentationTime; // for next time
       fSamePresentationTimeCounter = 0; // for next time

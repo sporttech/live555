@@ -1133,7 +1133,7 @@ void MatroskaFileParser::deliverFrameBytes() {
     fprintf(stderr, "\tdelivered frame #%d: %d bytes", fNextFrameNumberToDeliver, demuxedTrack->frameSize());
     if (track->haveSubframes()) fprintf(stderr, "[offset %d]", fCurOffsetWithinFrame - track->subframeSizeSize - demuxedTrack->frameSize() - demuxedTrack->numTruncatedBytes());
     if (demuxedTrack->numTruncatedBytes() > 0) fprintf(stderr, " (%d bytes truncated)", demuxedTrack->numTruncatedBytes());
-    fprintf(stderr, " @%u.%06u (%.06f from start); duration %u us\n", demuxedTrack->presentationTime().tv_sec, demuxedTrack->presentationTime().tv_usec, demuxedTrack->presentationTime().tv_sec+demuxedTrack->presentationTime().tv_usec/1000000.0-fPresentationTimeOffset, demuxedTrack->durationInMicroseconds());
+    fprintf(stderr, " @%ld.%06u (%.06f from start); duration %u us\n", demuxedTrack->presentationTime().tv_sec, demuxedTrack->presentationTime().tv_usec, demuxedTrack->presentationTime().tv_sec+demuxedTrack->presentationTime().tv_usec/1000000.0-fPresentationTimeOffset, demuxedTrack->durationInMicroseconds());
 #endif
 
     if (!track->haveSubframes()

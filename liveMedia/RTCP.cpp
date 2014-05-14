@@ -381,7 +381,7 @@ void RTCPInstance::incomingReportHandler1() {
       fLastPacketSentSize = packetSize;
     }
 
-#ifdef DEBUG
+#if 0
     fprintf(stderr, "[%p]saw incoming RTCP packet", this);
     if (tcpReadStreamSocketNum < 0) {
       // Note that "fromAddress" is valid only if we're receiving over UDP (not over TCP):
@@ -428,7 +428,7 @@ void RTCPInstance::incomingReportHandler1() {
       Boolean subPacketOK = False;
       switch (pt) {
         case RTCP_PT_SR: {
-#ifdef DEBUG
+#if 0
 	  fprintf(stderr, "SR\n");
 #endif
 	  if (length < 20) break; length -= 20;
@@ -451,8 +451,8 @@ void RTCPInstance::incomingReportHandler1() {
 	  // The rest of the SR is handled like a RR (so, no "break;" here)
 	}
         case RTCP_PT_RR: {
-#ifdef DEBUG
-	  fprintf(stderr, "RR\n");
+#ifdef DEBUG_BUILD
+	  if (pt == RTCP_PT_RR) fprintf(stderr, "RR\n");
 #endif
 	  unsigned reportBlocksSize = rc*(6*4);
 	  if (length < reportBlocksSize) break;
@@ -540,7 +540,7 @@ void RTCPInstance::incomingReportHandler1() {
 	}
 	// Later handle SDES, APP, and compound RTCP packets #####
         default:
-#ifdef DEBUG
+#if 0
 	  fprintf(stderr, "UNSUPPORTED TYPE(0x%x)\n", pt);
 #endif
 	  subPacketOK = True;
@@ -550,7 +550,7 @@ void RTCPInstance::incomingReportHandler1() {
 
       // need to check for (& handle) SSRC collision! #####
 
-#ifdef DEBUG
+#if 0
       fprintf(stderr, "validated RTCP subpacket (type %d): %d, %d, %d, 0x%08x\n", typeOfPacket, rc, pt, length, reportSenderSSRC);
 #endif
 
@@ -582,7 +582,7 @@ void RTCPInstance::incomingReportHandler1() {
 #endif
       break;
     } else {
-#ifdef DEBUG
+#if 0
       fprintf(stderr, "validated entire RTCP packet\n");
 #endif
     }
@@ -619,7 +619,7 @@ void RTCPInstance::onReceive(int typeOfPacket, int totPacketSize,
 }
 
 void RTCPInstance::sendReport() {
-#ifdef DEBUG
+#if 0
   fprintf(stderr, "sending REPORT\n");
 #endif
   // Begin by including a SR and/or RR report:
@@ -651,7 +651,7 @@ void RTCPInstance::sendBYE() {
 }
 
 void RTCPInstance::sendBuiltPacket() {
-#ifdef DEBUG
+#if 0
   fprintf(stderr, "sending RTCP packet\n");
   unsigned char* p = fOutBuf->packet();
   for (unsigned i = 0; i < fOutBuf->curPacketSize(); ++i) {
@@ -903,7 +903,7 @@ void RTCPInstance::schedule(double nextTime) {
 
   double secondsToDelay = nextTime - dTimeNow();
   if (secondsToDelay < 0) secondsToDelay = 0;
-#ifdef DEBUG
+#if 0
   fprintf(stderr, "schedule(%f->%f)\n", secondsToDelay, nextTime);
 #endif
   int64_t usToGo = (int64_t)(secondsToDelay * 1000000);
